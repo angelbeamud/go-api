@@ -27,7 +27,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	collection := client.Database("your_database_name").Collection("users")
+	collection := client.Database("go-api").Collection("users")
 	result, err := collection.InsertOne(context.Background(), user)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -46,7 +46,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	}
 	defer client.Disconnect(context.Background())
 
-	collection := client.Database("your_database_name").Collection("users")
+	collection := client.Database("go-api").Collection("users")
 	cursor, err := collection.Find(context.Background(), bson.D{})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -82,7 +82,7 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	collection := client.Database("your_database_name").Collection("users")
+	collection := client.Database("go-api").Collection("users")
 	var user models.User
 	if err := collection.FindOne(context.Background(), bson.M{"_id": id}).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
@@ -113,7 +113,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	collection := client.Database("your_database_name").Collection("users")
+	collection := client.Database("go-api").Collection("users")
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": updatedUser}
 	result, err := collection.UpdateOne(context.Background(), filter, update)
@@ -140,7 +140,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	collection := client.Database("your_database_name").Collection("users")
+	collection := client.Database("go-api").Collection("users")
 	result, err := collection.DeleteOne(context.Background(), bson.M{"_id": id})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
